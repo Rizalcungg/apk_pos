@@ -20,7 +20,8 @@ class RoleMiddlewarev
             return redirect()->route('login')
                ->withErrors(['Silakan login terlebih dahulu.']);
         }
-        $userRole = $request->user()->role;
+
+        $userRole = $request->user()->role->name;
 
         // Jika role user tidak sesuai route yang diminta
         if (!in_array($userRole, $roles)) {
