@@ -2,21 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\Role;
-use App\Models\user;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use PHPUnit\Event\TestSuite\Sorted;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(SearchRequest $request)
     {
-        $users = User::latest()->paginate(10)->withQueryString();
+        $keyword = $request->input('search');
+
+        if ($keyword) {
+            $users = User::whereRaw("MATCH(name, email) AGAINST(? IN BOOLEAN MODE)", [$keyword])
+                ->paginate(10)
+                ->withQueryString();
+        } else {
+            $users = User::query()->paginate(10)->withQueryString();
+        }
 
         return view('users.index', compact('users'));
     }
@@ -34,14 +45,14 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $dataReq = $request->validated();
 
-        $data['name']     = $dataReq['name'];
-        $data['email']    = $dataReq['email'];
+        $data['name'] = $dataReq['name'];
+        $data['email'] = $dataReq['email'];
         $data['password'] = Hash::make($dataReq['password']);
-        $data['role_id']  = $dataReq['role_id'];
+        $data['role_id'] = $dataReq['role_id'];
 
         User::create($data);
 
@@ -51,9 +62,11 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        $user->delete();
+
+        return back()->with('success', 'User delate');
     }
 
     /**
@@ -69,13 +82,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, User $user)
     {
         $dataReq = $request->validated();
 
-        $user->name    = $dataReq['name'];
-        $user->email   = $dataReq['email'];
-        $user->role_id = $dataReq['role_id'];
+        $user->name     = $dataReq['name'];
+        $user->email    = $dataReq['email'];
+        $user->role_id  = $dataReq['role_id'];
 
         if (!empty($dataReq['password'])) {
             $user->password = Hash::make($dataReq['password']);
@@ -83,16 +96,16 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.users.edit', $user->id)->with('success', 'User updated');
+        return redirect()->route('admin.users.edit', $user->id)->with('success', 'User update');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
         $user->delete();
-        
-        return back()->with('success', 'User delete');
+
+        return back()->with('success', 'User deleted');
     }
 }

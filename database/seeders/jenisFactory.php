@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Produk;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Jenis;
 
-class ProdukSeeder extends Seeder
+class JenisSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Produk::factory()->count(100)->create();
+        jenis::factory()->count(10)->create();
     }
 }

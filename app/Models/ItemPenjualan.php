@@ -10,10 +10,9 @@ class ItemPenjualan extends Model
     use HasFactory;
 
     protected $table = 'item_penjualan';
-    
     protected $fillable = [
         'penjualan_id',
-        'peroduk_id',
+        'produk_id',
         'kuantitas',
         'harga_satuan',
         'subtotal'
@@ -21,11 +20,11 @@ class ItemPenjualan extends Model
 
     public function produk()
     {
-        return $this->belongsTO(Produk::class, 'peroduk_id');
+        return $this->belongsTo(Produk::class,'produk_id');
     }
 
     public function penjualan()
     {
-        return $this->belongsTO(penjualan::class, 'penjualan_id');
+        return $this->belongsTo(Penjualan::class,'penjualan_id');
     }
 }

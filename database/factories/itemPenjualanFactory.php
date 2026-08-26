@@ -2,32 +2,29 @@
 
 namespace Database\Factories;
 
-use App\Models\itemPenjualan;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\ItemPenjualan;
 use App\Models\Produk;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
 /**
- * @extends Factory<itemPenjualan>
+ * @extends Factory<ItemPenjualan>
  */
-class itemPenjualanFactory extends Factory
+class ItemPenjualanFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    protected $model = itemPenjualan::class;
+    protected $model = ItemPenjualan::class;
 
     public function definition(): array
     {
-            $produk = Produk::inRandomOrder()->first();
-            $qty = $this->faker->numberBetween(1, 10);
+        // Ambil produk acak atau buat baru jika belum ada produk sama sekali
+        $produk = Produk::inRandomOrder()->first() ?? Produk::factory();
+        $qty = $this->faker->numberBetween(1, 10);
+        $hargaSatuan = $produk->harga_jual ?? 10000; // Fallback nilai jika berupa instance Factory
 
-return [
-    'produk_id' => $produk->id,
-    'kuantitas' => $qty,
-    'harga_satuan' => $produk->harga_jual,
-    'subtotal' => $produk->harga_jual * $qty,
-];
-        
+        return [
+            'produk_id' => $produk->id ?? $produk,
+            'kuantitas' => $qty,
+            'harga_satuan' => $hargaSatuan,
+            'subtotal' => $hargaSatuan * $qty,
+        ];
     }
 }

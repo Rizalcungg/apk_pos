@@ -20,25 +20,26 @@ class StoreRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-   public function rules(): array
-{
-    return [
-        'name' => 'required|string|max:100',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:8',
-        'role_id' => 'required|exists:roles,id'
-    ];
-}  
-public function messages(): array
-{
-    return [
-        'name.required'     => 'Nama Wajib diisi.',
-        'name.max'          => 'Maksimal panjang nama 100 karakter.',
-        'email.required'    => 'Email wajib diisi.',
-        'email.email'       => 'Format email tidak valid.',
-        'password.required' => 'Password wajib diisi.',
-        'password.min'      => 'Password minimal :min karakter.',
-        'role_id.required'  => 'Roles Wajib diisi.',
-    ];
-}
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+            'role_id' => 'required|exists:roles,id'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama Wajib diisi.',
+            'name.max' => 'Maksimal panjang nama 100 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal :min karakter.',
+            'role_id.required' => 'Roles Wajib diisi.',
+        ];
+    }
 }

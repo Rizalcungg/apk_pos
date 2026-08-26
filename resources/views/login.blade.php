@@ -1,38 +1,62 @@
-<!-- memanggil file app.blade.php -->
 @extends('layouts.app')
 
-<!-- mengirimkan nilai ke tittle untuk ditampilkan -->
-@section('title', 'Ini Halaman Ujicoba')
+@section('title', 'Login - POS')
 
-<!-- batas awal isi konten -->
 @section('content')
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+    <div class="card border-0 shadow-lg p-4 rounded-4" style="width: 100%; max-width: 400px;">
+        <div class="card-body">
+            <!-- Header / Logo Area -->
+            <div class="text-center mb-4">
+                <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                    <i class="bi bi-person-lock fs-2"></i>
+                </div>
+                <h4 class="fw-bold mb-1">Login POS</h4>
+                <p class="text-muted small">Masukan akun Anda untuk melanjutkan</p>
+            </div>
 
-<div class="card text-center position-absolute top-50 start-50 translate-middle" style="width: 18rem;">
-    <h5 class="card-header">Login POS_JALLL</h5>
-    <div class="card-body">
-      <form action="{{ route('auth') }}" method="POST">
-        @csrf
-         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-    @error('email')
-    <div class="badge text-bg-denger">{{ $message }}</div>
-    @enderror
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-    @error('email')
-    <div class="badge text-bg-denger">{{ $message }}</div>
-    @enderror
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+            <form action="{{ route('auth') }}" method="POST">
+                @csrf
 
-<!-- batas Akhir isi konten -->
+                <!-- Email Input -->
+                <div class="mb-3">
+                    <label for="email" class="form-label small fw-semibold text-secondary">Alamat Email</label>
+                    <input type="email"
+                           name="email"
+                           value="{{ old('email') }}"
+                           class="form-control form-control-lg @error('email') is-invalid @enderror"
+                           id="email"
+                           placeholder="nama@email.com"
+                           required>
+                    @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <!-- Password Input -->
+                <div class="mb-4">
+                    <label for="password" class="form-label small fw-semibold text-secondary">Password</label>
+                    <input type="password"
+                           name="password"
+                           class="form-control form-control-lg @error('password') is-invalid @enderror"
+                           id="password"
+                           placeholder="••••••••"
+                           required>
+                    @error('password')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary btn-lg w-100 fw-semibold shadow-sm">
+                    Masuk Sekarang
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
