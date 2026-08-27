@@ -47,6 +47,7 @@ class ProdukPolicy
     {
         return $user->role->name === 'admin';
     }
+
     /**
      * Determine whether the user can restore the model.
      */
