@@ -14,15 +14,15 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Buat akun utama kamu
+        // Buat akun utama admin
         User::create([
-            'name' => 'Fairus',
-            'email' => 'fairusisminuraziz@gmail.com',
+            'name' => 'RIZAL', // <-- Nama yang akan tampil di navbar/sidebar
+            'email' => 'admin@gmail.com',
             'password' => Hash::make('password123'),
-            'role_id' => 1, // <-- Tambahkan role_id di sini
+            'role_id' => 1,
         ]);
 
-        // Jika menggunakan factory, pastikan role_id juga diisi
+        // Jika ingin membuat user dummy tambahan
         User::factory()->count(5)->create([
             'role_id' => 1,
         ]);

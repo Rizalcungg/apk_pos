@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Produk;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -38,7 +38,6 @@ class StoreRequest extends FormRequest
             'foto.mimes' => 'Extensi gambar harus JPG, JPEG, PNG.',
             'foto.max' => 'Maksimal ukuran gambar 2MB.',
             'name.required' => 'Nama Wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
             'purchase_price.required' => 'purchase price wajib diisi.',
             'purchase_price.integer' => 'purchase price harus diisi bilangan bulat.',
             'selling_price.required' => 'selling price wajib diisi.',

@@ -105,16 +105,70 @@ class ItemPenjualanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function update(Request $request, ItemPenjualan $itempenjualan)
+{
+    $request->validate([
+        'quantity' => 'required|integer|min:1'
+    ]);
 
+    DB::transaction(function () use ($request, $itempenjualan) {
+
+        $produk = $itempenjualan->produk()->lockForUpdate()->first();
+
+        $selisih = $request->quantity - $itempenjualan->kuantitas;
+
+        // 🔍 Jika qty bertambah -> kurangi stok
+        if ($selisih > 0) {
+            if ($produk->stok < $selisih) {
+                return redirect()->route('penjualan.create')->with('errors', 'Stok tidak mencukupi');
+            }
+            $produk->decrement('stok', $selisih);
+        }
+
+        // 🔍 Jika qty berkurang -> kembalikan stok
+        if ($selisih < 0) {
+            $produk->increment('stok', abs($selisih));
+        }
+
+        // 🔄 Update item
+        $itempenjualan->update([
+            'kuantitas' => $request->quantity,
+            'subtotal' => $request->quantity * $itempenjualan->harga_satuan
+        ]);
+
+        // 🔄 Update total penjualan
+        $itempenjualan->penjualan->update([
+            'total_pembayaran' => 
+                $itempenjualan->penjualan->itemPenjualan()->sum('subtotal')
+        ]);
+    });
+
+    return back();
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+   public function destroy(ItemPenjualan $itempenjualan)
+{
+    $this->authorize('delete', $itempenjualan);
+    
+    DB::transaction(function () use ($itempenjualan) {
+
+        $produk = $itempenjualan->produk;
+        $sale = $itempenjualan->penjualan;
+
+        // ⬆️ Kembalikan stok
+        $produk->increment('stok', $itempenjualan->kuantitas);
+
+        // ❌ Hapus item
+        $itempenjualan->delete();
+
+        // 🔄 Update total penjualan
+        $sale->update([
+            'total_pembayaran' => $sale->itemPenjualan()->sum('subtotal')
+        ]);
+    });
+
+    return back();
+}
 }
