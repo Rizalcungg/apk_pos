@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Produk;
 use App\Models\User;
-use App\Models\Jenis;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,7 +25,6 @@ class ProdukFactory extends Factory
         return [
             // Menggunakan fallback jika user dengan role_id 1 tidak ditemukan
             'user_id' => User::where('role_id', 1)->inRandomOrder()->value('id') ?? User::factory(),
-            'jenis_id' => Jenis::inRandomOrder()->value('id') ?? Jenis::factory(),
             'foto' => 'produk/' . $this->faker->uuid . '.jpg', // Ditambahkan titik (.jpg)
             'nama' => ucfirst($this->faker->words(3, true)),
             'harga_beli' => $hargaBeli,

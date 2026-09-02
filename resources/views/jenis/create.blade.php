@@ -9,4 +9,4 @@
     @csrf
     @include('jenis._form', ['jenis' => null])
 </form>
-@endsection 
+@endsection

@@ -8,8 +8,16 @@
 
 <h1>Halaman Produk</h1>
 
+{{-- PINDAHKAN KODE NOTIFIKASI KESINI --}}
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 @can('create', App\Models\Produk::class)
-    <a href="{{ route('produk.create') }}" method="GET" class="btn btn-primary mb-3">create</a>
+    <a href="{{ route('produk.create') }}" class="btn btn-primary mb-3">create</a>
 @endcan
 
 <form action="{{ route('produk.index') }}" method="GET" class="mb-3">
@@ -33,7 +41,8 @@
       <th scope="col">#</th>
       <th scope="col">User</th>
       <th scope="col">Foto</th>
-      <th scope="col">Nama</th>
+      <th scope="col">Nama Jenis</th>
+      <th scope="col">Nama Produk</th>
       <th scope="col">Harga Beli</th>
       <th scope="col">Harga Jual</th>
       <th scope="col">Stok</th>
@@ -50,7 +59,8 @@
                  width="100"
                  class="img-thumbnail">
       </td>
-      <td>{{ $product->nama }}</td>
+       <td class="fw-bold text-dark">{{ $product->jenis->nama_jenis ?? '-' }}</td>
+       <td class="fw-bold text-dark">{{ $product->nama }}</td>
       <td>{{ $product->harga_beli }}</td>
       <td>{{ $product->harga_jual }}</td>
       <td>{{ $product->stok }}</td>

@@ -32,7 +32,9 @@ Route::middleware('auth')->group(function () {
 
     // Route untuk Admin dan Kasir
     Route::middleware('role:admin,kasir')->group(function () {
-        Route::resource('jenis', JenisController::class);
+        Route::resource('jenis', JenisController::class)->parameters([
+            'jenis' => 'jenis'
+        ]);
         Route::resource('produk', ProdukController::class);
         Route::resource('penjualan', PenjualanController::class);
         Route::resource('itempenjualan', ItemPenjualanController::class);

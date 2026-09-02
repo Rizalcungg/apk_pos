@@ -4,7 +4,8 @@
 
 @section('content')
 
-    @include('layouts.navbar')
+@include('layouts.navbar')
+
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Daftar Jenis Produk</h2>
@@ -28,7 +29,7 @@
                     <td>
                         <div class="d-flex align-items-center gap-2">
                             <!-- Lingkaran Avatar Inisial -->
-                            <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center fw-bold flex-shrink-0"
+                            <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center fw-bold flex-shrink-0" 
                                 style="width: 32px; height: 32px; font-size: 0.8rem;">
                                 {{ strtoupper(substr($sale->user->name ?? $item->user->name ?? 'K', 0, 1)) }}
                             </div>
@@ -44,8 +45,8 @@
                         <form action="{{ route('jenis.destroy', $item->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit"
-                            class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 px-2.5 py-1"
+                            <button type="submit" 
+                            class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 px-2.5 py-1" 
                             onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')"
                                 title="Hapus Produk">
                              <i class="bi bi-trash"></i>

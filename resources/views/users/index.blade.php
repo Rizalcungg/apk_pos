@@ -40,7 +40,7 @@
     <td>{{ $user->email }}</td>
     <td>{{ $user->role->name }}</td>
     <td>
-      <a href="{{ route('admin.users.edit',$user) }}" class=btn btn-sm btn-warning">
+      <a href="{{ route('admin.users.edit',$user) }}" class=btn btn-sm btn-warning>
         Edit Akun
       </a>
       ||

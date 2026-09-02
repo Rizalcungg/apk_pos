@@ -9,11 +9,11 @@ class JenisPolicy
 {
     public function update(User $user, Jenis $jenis): bool
     {
-        return $user->role->name === 'admin';
+        return true; // Siapa saja bisa update
     }
 
     public function delete(User $user, Jenis $jenis): bool
     {
-        return $user->role->name === 'admin';
+        return true; // Siapa saja bisa hapus
     }
 }

@@ -8,6 +8,6 @@
 <form action="{{ route('jenis.update', $jenis) }}" method="POST">
     @csrf
     @method('PUT')
-    @include('jenis._form')
+    @include('jenis._form', ['jenis' => $jenis])
 </form>
 @endsection
